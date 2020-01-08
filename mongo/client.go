@@ -770,7 +770,7 @@ func (c *Client) UseSessionWithOptions(ctx context.Context, opts *options.Sessio
 	defer defaultSess.EndSession(ctx)
 
 	sessCtx := sessionContext{
-		Context: context.WithValue(ctx, sessionKey{}, defaultSess),
+		Context: context.WithValue(ctx, SessionKey{}, defaultSess),
 		Session: defaultSess,
 	}
 
