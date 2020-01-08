@@ -13,15 +13,15 @@ import (
 	"strconv"
 	"time"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/internal/testutil/assert"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/gridfs"
-	"go.mongodb.org/mongo-driver/mongo/integration/mtest"
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/mongo/readconcern"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
+	"github.com/wimspaargaren/mongo-go-driver/bson"
+	"github.com/wimspaargaren/mongo-go-driver/bson/primitive"
+	"github.com/wimspaargaren/mongo-go-driver/internal/testutil/assert"
+	"github.com/wimspaargaren/mongo-go-driver/mongo"
+	"github.com/wimspaargaren/mongo-go-driver/mongo/gridfs"
+	"github.com/wimspaargaren/mongo-go-driver/mongo/integration/mtest"
+	"github.com/wimspaargaren/mongo-go-driver/mongo/options"
+	"github.com/wimspaargaren/mongo-go-driver/mongo/readconcern"
+	"github.com/wimspaargaren/mongo-go-driver/mongo/readpref"
 )
 
 // Helper functions to execute and verify results from CRUD methods.

@@ -11,8 +11,8 @@ import (
 	"time"
 
 	"github.com/kr/pretty"
-	"go.mongodb.org/mongo-driver/x/mongo/driver/address"
-	"go.mongodb.org/mongo-driver/x/mongo/driver/topology"
+	"github.com/wimspaargaren/mongo-go-driver/x/mongo/driver/address"
+	"github.com/wimspaargaren/mongo-go-driver/x/mongo/driver/topology"
 )
 
 func main() {

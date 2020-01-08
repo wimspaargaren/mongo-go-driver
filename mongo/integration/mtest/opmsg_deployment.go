@@ -10,12 +10,12 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/x/bsonx/bsoncore"
-	"go.mongodb.org/mongo-driver/x/mongo/driver"
-	"go.mongodb.org/mongo-driver/x/mongo/driver/address"
-	"go.mongodb.org/mongo-driver/x/mongo/driver/description"
-	"go.mongodb.org/mongo-driver/x/mongo/driver/wiremessage"
+	"github.com/wimspaargaren/mongo-go-driver/bson"
+	"github.com/wimspaargaren/mongo-go-driver/x/bsonx/bsoncore"
+	"github.com/wimspaargaren/mongo-go-driver/x/mongo/driver"
+	"github.com/wimspaargaren/mongo-go-driver/x/mongo/driver/address"
+	"github.com/wimspaargaren/mongo-go-driver/x/mongo/driver/description"
+	"github.com/wimspaargaren/mongo-go-driver/x/mongo/driver/wiremessage"
 )
 
 const (

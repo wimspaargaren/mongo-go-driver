@@ -7,8 +7,8 @@
 package mtest
 
 import (
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"github.com/wimspaargaren/mongo-go-driver/bson"
+	"github.com/wimspaargaren/mongo-go-driver/mongo/options"
 )
 
 // TopologyKind describes the topology that a test is run on.

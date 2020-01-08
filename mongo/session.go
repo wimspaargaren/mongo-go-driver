@@ -11,15 +11,15 @@ import (
 	"errors"
 	"time"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/x/bsonx"
-	"go.mongodb.org/mongo-driver/x/bsonx/bsoncore"
-	"go.mongodb.org/mongo-driver/x/mongo/driver"
-	"go.mongodb.org/mongo-driver/x/mongo/driver/description"
-	"go.mongodb.org/mongo-driver/x/mongo/driver/operation"
-	"go.mongodb.org/mongo-driver/x/mongo/driver/session"
+	"github.com/wimspaargaren/mongo-go-driver/bson"
+	"github.com/wimspaargaren/mongo-go-driver/bson/primitive"
+	"github.com/wimspaargaren/mongo-go-driver/mongo/options"
+	"github.com/wimspaargaren/mongo-go-driver/x/bsonx"
+	"github.com/wimspaargaren/mongo-go-driver/x/bsonx/bsoncore"
+	"github.com/wimspaargaren/mongo-go-driver/x/mongo/driver"
+	"github.com/wimspaargaren/mongo-go-driver/x/mongo/driver/description"
+	"github.com/wimspaargaren/mongo-go-driver/x/mongo/driver/operation"
+	"github.com/wimspaargaren/mongo-go-driver/x/mongo/driver/session"
 )
 
 // ErrWrongClient is returned when a user attempts to pass in a session created by a different client than
@@ -41,7 +41,7 @@ type sessionContext struct {
 	Session
 }
 
-type sessionKey struct {
+type SessionKey struct {
 }
 
 // Session is an interface that represents a MongoDB logical session. Sessions can be used to enable causal consistency
@@ -311,7 +311,7 @@ func (*sessionImpl) session() {
 // sessionFromContext checks for a sessionImpl in the argued context and returns the session if it
 // exists
 func sessionFromContext(ctx context.Context) *session.Client {
-	s := ctx.Value(sessionKey{})
+	s := ctx.Value(SessionKey{})
 	if ses, ok := s.(*sessionImpl); ses != nil && ok {
 		return ses.clientSession
 	}
@@ -322,7 +322,7 @@ func sessionFromContext(ctx context.Context) *session.Client {
 // contextWithSession creates a new SessionContext associated with the given Context and Session parameters.
 func contextWithSession(ctx context.Context, sess Session) SessionContext {
 	return &sessionContext{
-		Context: context.WithValue(ctx, sessionKey{}, sess),
+		Context: context.WithValue(ctx, SessionKey{}, sess),
 		Session: sess,
 	}
 }

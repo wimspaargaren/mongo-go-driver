@@ -12,10 +12,10 @@ import (
 
 	"strings"
 
-	"go.mongodb.org/mongo-driver/x/bsonx/bsoncore"
-	. "go.mongodb.org/mongo-driver/x/mongo/driver/auth"
-	"go.mongodb.org/mongo-driver/x/mongo/driver/description"
-	"go.mongodb.org/mongo-driver/x/mongo/driver/drivertest"
+	"github.com/wimspaargaren/mongo-go-driver/x/bsonx/bsoncore"
+	. "github.com/wimspaargaren/mongo-go-driver/x/mongo/driver/auth"
+	"github.com/wimspaargaren/mongo-go-driver/x/mongo/driver/description"
+	"github.com/wimspaargaren/mongo-go-driver/x/mongo/driver/drivertest"
 )
 
 func TestMongoDBCRAuthenticator_Fails(t *testing.T) {

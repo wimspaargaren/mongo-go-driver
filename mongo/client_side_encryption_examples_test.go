@@ -13,8 +13,8 @@ import (
 	"fmt"
 	"log"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"github.com/wimspaargaren/mongo-go-driver/bson"
+	"github.com/wimspaargaren/mongo-go-driver/mongo/options"
 )
 
 func Example_clientSideEncryption() {

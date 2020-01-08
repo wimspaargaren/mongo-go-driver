@@ -10,13 +10,13 @@ import (
 	"context"
 	"testing"
 
-	"go.mongodb.org/mongo-driver/event"
-	"go.mongodb.org/mongo-driver/internal/testutil"
-	"go.mongodb.org/mongo-driver/internal/testutil/assert"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/mongo/readpref"
-	"go.mongodb.org/mongo-driver/mongo/writeconcern"
+	"github.com/wimspaargaren/mongo-go-driver/event"
+	"github.com/wimspaargaren/mongo-go-driver/internal/testutil"
+	"github.com/wimspaargaren/mongo-go-driver/internal/testutil/assert"
+	"github.com/wimspaargaren/mongo-go-driver/mongo"
+	"github.com/wimspaargaren/mongo-go-driver/mongo/options"
+	"github.com/wimspaargaren/mongo-go-driver/mongo/readpref"
+	"github.com/wimspaargaren/mongo-go-driver/mongo/writeconcern"
 )
 
 var (
