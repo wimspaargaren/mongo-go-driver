@@ -84,6 +84,9 @@ func MergeCollectionOptions(opts ...*CollectionOptions) *CollectionOptions {
 		if opt.Registry != nil {
 			c.Registry = opt.Registry
 		}
+		if opt.PreFilter != nil {
+			c.PreFilter = opt.PreFilter
+		}
 	}
 
 	return c
