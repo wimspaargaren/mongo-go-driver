@@ -7,6 +7,7 @@
 package options
 
 import (
+	"github.com/wimspaargaren/mongo-go-driver/bson"
 	"github.com/wimspaargaren/mongo-go-driver/bson/bsoncodec"
 	"github.com/wimspaargaren/mongo-go-driver/mongo/readconcern"
 	"github.com/wimspaargaren/mongo-go-driver/mongo/readpref"
@@ -15,6 +16,7 @@ import (
 
 // CollectionOptions represents options that can be used to configure a Collection.
 type CollectionOptions struct {
+	PreFilter *bson.M
 	// The read concern to use for operations executed on the Collection. The default value is nil, which means that
 	// the read concern of the database used to configure the Collection will be used.
 	ReadConcern *readconcern.ReadConcern

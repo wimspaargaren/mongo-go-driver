@@ -38,6 +38,7 @@ type Collection struct {
 	readSelector   description.ServerSelector
 	writeSelector  description.ServerSelector
 	registry       *bsoncodec.Registry
+	PreFilter      *bson.M
 }
 
 // aggregateParams is used to store information to configure an Aggregate operation.
@@ -86,6 +87,11 @@ func newCollection(db *Database, name string, opts ...*options.CollectionOptions
 		reg = collOpt.Registry
 	}
 
+	preFilter := &bson.M{}
+	if collOpt.PreFilter != nil {
+		preFilter = collOpt.PreFilter
+	}
+
 	readSelector := description.CompositeSelector([]description.ServerSelector{
 		description.ReadPrefSelector(rp),
 		description.LatencySelector(db.client.localThreshold),
@@ -106,6 +112,7 @@ func newCollection(db *Database, name string, opts ...*options.CollectionOptions
 		readSelector:   readSelector,
 		writeSelector:  writeSelector,
 		registry:       reg,
+		PreFilter:      preFilter,
 	}
 
 	return coll
@@ -379,7 +386,10 @@ func (coll *Collection) delete(ctx context.Context, filter interface{}, deleteOn
 	if ctx == nil {
 		ctx = context.Background()
 	}
-
+	filter, err := coll.MergeFilters(filter)
+	if err != nil {
+		return nil, err
+	}
 	f, err := transformBsoncoreDocument(coll.registry, filter)
 	if err != nil {
 		return nil, err
@@ -591,7 +601,10 @@ func (coll *Collection) UpdateOne(ctx context.Context, filter interface{}, updat
 	if ctx == nil {
 		ctx = context.Background()
 	}
-
+	filter, err := coll.MergeFilters(filter)
+	if err != nil {
+		return nil, err
+	}
 	f, err := transformBsoncoreDocument(coll.registry, filter)
 	if err != nil {
 		return nil, err
@@ -619,7 +632,10 @@ func (coll *Collection) UpdateMany(ctx context.Context, filter interface{}, upda
 	if ctx == nil {
 		ctx = context.Background()
 	}
-
+	filter, err := coll.MergeFilters(filter)
+	if err != nil {
+		return nil, err
+	}
 	f, err := transformBsoncoreDocument(coll.registry, filter)
 	if err != nil {
 		return nil, err
@@ -647,7 +663,10 @@ func (coll *Collection) ReplaceOne(ctx context.Context, filter interface{},
 	if ctx == nil {
 		ctx = context.Background()
 	}
-
+	filter, err := coll.MergeFilters(filter)
+	if err != nil {
+		return nil, err
+	}
 	f, err := transformBsoncoreDocument(coll.registry, filter)
 	if err != nil {
 		return nil, err
@@ -969,6 +988,10 @@ func (coll *Collection) Distinct(ctx context.Context, fieldName string, filter i
 		ctx = context.Background()
 	}
 
+	filter, err := coll.MergeFilters(filter)
+	if err != nil {
+		return nil, err
+	}
 	f, err := transformBsoncoreDocument(coll.registry, filter)
 	if err != nil {
 		return nil, err
@@ -1043,6 +1066,18 @@ func (coll *Collection) Distinct(ctx context.Context, fieldName string, filter i
 	return retArray, replaceErrors(err)
 }
 
+func (coll *Collection) MergeFilters(filter interface{}) (interface{}, error) {
+	bsonFilter, ok := filter.(bson.M)
+	if !ok {
+		return nil, fmt.Errorf("filter 1 is not of type bson.M")
+	}
+	for k, v := range *coll.PreFilter {
+		bsonFilter[k] = v
+	}
+
+	return bsonFilter, nil
+}
+
 // Find executes a find command and returns a Cursor over the matching documents in the collection.
 //
 // The filter parameter must be a document containing query operators and can be used to select which documents are
@@ -1057,7 +1092,10 @@ func (coll *Collection) Find(ctx context.Context, filter interface{},
 	if ctx == nil {
 		ctx = context.Background()
 	}
-
+	filter, err := coll.MergeFilters(filter)
+	if err != nil {
+		return nil, err
+	}
 	f, err := transformBsoncoreDocument(coll.registry, filter)
 	if err != nil {
 		return nil, err
@@ -1323,7 +1361,10 @@ func (coll *Collection) findAndModify(ctx context.Context, op *operation.FindAnd
 // For more information about the command, see https://docs.mongodb.com/manual/reference/command/findAndModify/.
 func (coll *Collection) FindOneAndDelete(ctx context.Context, filter interface{},
 	opts ...*options.FindOneAndDeleteOptions) *SingleResult {
-
+	filter, err := coll.MergeFilters(filter)
+	if err != nil {
+		return nil
+	}
 	f, err := transformBsoncoreDocument(coll.registry, filter)
 	if err != nil {
 		return &SingleResult{err: err}
@@ -1370,7 +1411,10 @@ func (coll *Collection) FindOneAndDelete(ctx context.Context, filter interface{}
 // For more information about the command, see https://docs.mongodb.com/manual/reference/command/findAndModify/.
 func (coll *Collection) FindOneAndReplace(ctx context.Context, filter interface{},
 	replacement interface{}, opts ...*options.FindOneAndReplaceOptions) *SingleResult {
-
+	filter, err := coll.MergeFilters(filter)
+	if err != nil {
+		return nil
+	}
 	f, err := transformBsoncoreDocument(coll.registry, filter)
 	if err != nil {
 		return &SingleResult{err: err}
@@ -1439,7 +1483,10 @@ func (coll *Collection) FindOneAndUpdate(ctx context.Context, filter interface{}
 	if ctx == nil {
 		ctx = context.Background()
 	}
-
+	filter, err := coll.MergeFilters(filter)
+	if err != nil {
+		return nil
+	}
 	f, err := transformBsoncoreDocument(coll.registry, filter)
 	if err != nil {
 		return &SingleResult{err: err}
